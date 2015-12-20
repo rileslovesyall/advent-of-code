@@ -31,4 +31,4 @@ end
 
 puts "The elves need to order #{paper_count(INPUT)} sq. feet of wrapping paper."
 
-puts "The elves need to order.#{ribbon_length(INPUT)} feet of ribbon."
+puts "The elves need to order #{ribbon_length(INPUT)} feet of ribbon."
