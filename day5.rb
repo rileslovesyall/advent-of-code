@@ -17,39 +17,21 @@ class String
     three_vowels? && double_letters? && !forbidden?
   end
 
+  # second half of the problem-- new requirements
+
+  def pair_not_overlapping?
+    !(self.match(/([a-z][a-z]).*\1/)).nil?
+  end
+
+  def repeat_with_middle_letter?
+    !(self.match(/([a-z])[a-z]\1/)).nil?
+  end
+
+  def new_nice?
+    pair_not_overlapping? && repeat_with_middle_letter?
+  end
+
 end
-# def naughty_or_nice(string)
-#   string = string.split('')
-#   # contains at least three vowels
-#   vowels = 0
-#   string.each do |letter|
-#     case letter
-#     when 'a'
-#       vowels += 1
-#     when 'e'
-#       vowels += 1
-#     when 'i'
-#       vowels += 1
-#     when 'o'
-#       vowels += 1
-#     when 'u'
-#       vowels += 1
-#     end
-#   end
-#   # contains at least one letter that appears twice as a row
-#   double = false
-#   string.each_with_index do |letter, index|
-#     double = true if letter == string[index+1]
-#   end
-#   # does not contain 'ab', 'cd', 'pq', 'xy'
-#   forbidden = false
-#   forbidden = true if string.include?('ab') || string.include?('cd') || string.include?('pq') || string.include?('xy')
-#   if forbidden == false && double == true && vowels == 3
-#     return 'nice'
-#   else
-#     return 'naughty'
-#   end
-# end
 
 def naughty_or_nice(string_of_strings)
   count = 0
@@ -60,23 +42,17 @@ def naughty_or_nice(string_of_strings)
   return count
 end
 
-# def number_nice(string_of_strings)
-#   count = 0
-#   string_array = string_of_strings.split(" ")
-#   string_array.each do |string|
-#     count += 1 if naughty_or_nice(string) == 'nice'
-#   end
-#   return count
-# end
+def naughty_or_new_nice(string_of_strings)
+  count = 0
+  string_array = string_of_strings.split(" ")
+  string_array.each do |string|
+    count += 1 if string.new_nice?
+  end
+  return count
+end
 
-puts INPUT.split(" ").length
 puts "There are #{naughty_or_nice(INPUT)} nice words in the list."
 
-puts "'xxxaeix' is nice. test: #{naughty_or_nice('xxxaeix')}"
-puts "'ugknbfddgicrmopn' is nice. test: #{naughty_or_nice('ugknbfddgicrmopn')}"
-puts "'aaa' is nice. test: #{naughty_or_nice('aaa')}"
-puts "'jchzalrnumimnmhp' is naughty. test: #{naughty_or_nice('jchzalrnumimnmhp')}"
-puts "'haegwjzuvuyypxyu' is naughty. test: #{naughty_or_nice('haegwjzuvuyypxyu')}"
-puts "'dvszwmarrgswjxmb' is naughty. test: #{naughty_or_nice('dvszwmarrgswjxmb')}"
+puts "There are #{naughty_or_new_nice(INPUT)} new-nice words in the list."
 
 
