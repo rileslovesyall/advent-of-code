@@ -28,10 +28,19 @@ game = SquidBingo.new
 # prepare_game(game, './inputs/day4_test.txt', TEST_DRAWS)
 prepare_game(game, './inputs/day4_input.txt', INPUT_DRAWS)
 draw = game.draw_a_number
+
+#Adding this in for part 2
+while game.boards.length > 1
+	game.draw_a_number
+	game.remove_wins
+end
+
 while !game.check_wins
 	game.draw_a_number
 	game.check_wins
 end
+
+# game.count_win(game.boards[0])
 
 
 
