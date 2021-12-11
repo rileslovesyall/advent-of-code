@@ -4,6 +4,7 @@ class SquidBingo
 	def initialize
 		@boards = []
 		@draws = []
+		@last_draw = 0
 	end
 	
 
@@ -11,8 +12,64 @@ class SquidBingo
 		@boards << board_args
 	end
 
-	def play_game
-		
+	def draw_a_number
+		draw = @draws.shift.to_s
+		@boards.each do |board|
+			board.each do |row|
+				row.map! { |x| x == draw ? 'X' : x  }
+			end
+		end
+		@last_draw = draw
+	end
+
+	def check_wins
+		@boards.each do |board|
+			col_hash = {}
+			board.each do |row|
+				row_fail = 0
+				row.each_with_index do |num, index|
+					if col_hash[index] == nil
+						# binding.pry
+						col_hash[index] = 0
+					end
+					if num != 'X'
+						col_hash[index] += 1 
+					end
+					row_fail += 1 if num != 'X'
+				end
+				if row_fail == 0
+					puts "We have a winner! The rows are all checked off! "
+					# puts "This board is the winner: #{board}"
+					score = count_win(board, @last_draw)
+					puts "Board score is #{score}"
+					return true
+				end
+			end
+			col_hash.each_value do |val|
+				if val == 0
+					puts "We have a winner! The columns are all checked off!"
+					# puts "This board is the winner: #{board}"
+					score = count_win(board, @last_draw)
+					puts "Board score is #{score}"
+					return true
+				end
+			end
+		end
+		# binding.pry
+		puts "No winners yet. Keep drawing."
+		return false
+	end
+
+	
+
+	def count_win(board, last_draw)
+		count = 0
+		board.each do |row|
+			row.each do |num|
+				count += num.to_i if num != 'X'
+			end
+		end
+		return count * last_draw.to_i
 	end
 
 end
